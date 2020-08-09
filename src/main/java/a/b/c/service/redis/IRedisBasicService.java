@@ -2,6 +2,7 @@ package a.b.c.service.redis;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Description: 实现了redis的基本数据类型的相关操作
@@ -102,4 +103,29 @@ public interface IRedisBasicService {
      * @return
      */
     List<String> hmget(String key, String... property);
+
+    /**
+     * 添加元素到集合中去
+     * @param key
+     * @param elements
+     * @return
+     */
+    Long sadd(String key, String... elements);
+
+    /**
+     * 有序集合
+     * @param key
+     * @param value
+     * @return
+     */
+    Long zadd(String key, Double score, String value);
+
+    /**
+     *
+     * @param key
+     * @param start
+     * @param end
+     * @return
+     */
+    Set<String> zrangebylex(String key, String start, String end);
 }

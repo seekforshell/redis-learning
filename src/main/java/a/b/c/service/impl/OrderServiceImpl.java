@@ -10,9 +10,11 @@ import javax.validation.constraints.NotNull;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 @Service
+@ComponentScan(basePackages = "a.b.c.orm.dao")
 public class OrderServiceImpl implements IOrderService {
 
     private OrderMapper orderMapper;

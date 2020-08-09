@@ -2,9 +2,11 @@ package a.b.c.service.redis;
 
 import org.springframework.util.Assert;
 import redis.clients.jedis.JedisCluster;
+import redis.clients.jedis.params.ZAddParams;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Description:
@@ -92,5 +94,35 @@ public class RedisBasicServiceImpl implements IRedisBasicService {
     public List<String> hmget(String key, String... property) {
         List<String> propertyList = jedisCluster.hmget(key, property);
         return propertyList;
+    }
+
+    @Override
+    public Long sadd(String key, String... elements) {
+        Long count = jedisCluster.sadd(key, elements);
+        return count;
+    }
+
+    @Override
+    public Long zadd(String key, Double score, String value) {
+        ZAddParams zAddParams = new ZAddParams();
+        // not update, but add
+        zAddParams.nx();
+        Long count = jedisCluster.zadd(key, score, value, zAddParams);
+        return count;
+    }
+
+    @Override
+    public Set<String> zrangebylex(String key, String start, String end) {
+        if (null == start || null == end) {
+            throw new IllegalArgumentException("start or end is null");
+        }
+
+        if ((!start.startsWith("(") && !start.startsWith("[")) ||
+                (!end.startsWith("(") && !end.startsWith("["))) {
+            throw new IllegalArgumentException("start or end should begin with '(' or '['");
+        }
+
+        Set<String> eles = jedisCluster.zrangeByLex(key, start, end);
+        return eles;
     }
 }

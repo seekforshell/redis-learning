@@ -1,5 +1,6 @@
 package a.b.c.service.redis;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
